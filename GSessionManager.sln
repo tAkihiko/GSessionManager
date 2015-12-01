@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSessionManager", "GSessionManager\GSessionManager.csproj", "{12D55615-9425-4811-A01C-0069E481ED43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSessionCtrl", "..\GSessionCtrl\GSessionCtrl\GSessionCtrl.csproj", "{2E101F92-8A9D-4B95-B17E-0D3991CD0C24}"
