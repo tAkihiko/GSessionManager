@@ -14,8 +14,12 @@ namespace GSessionManager
         static void Main()
         {
             Manager man = new Manager();
-            IntPtr dummy = man.Handle;
-            Application.Run();
+            bool init = man.Start();
+            if (init)
+            {
+                IntPtr dummy = man.Handle;
+                Application.Run();
+            }
         }
     }
 }

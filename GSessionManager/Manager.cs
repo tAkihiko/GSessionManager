@@ -85,6 +85,14 @@ namespace GSessionManager
             LockGettingSchedule = new object();
             PopupScheduleTitle = "";
             PopupScheduleText = "";
+        }
+
+        /// <summary>
+        /// アプリケーション開始
+        /// </summary>
+        /// <returns>true: 初期化成功, false: 初期化失敗</returns>
+        public bool Start()
+        {
 
             // ID・PassWord設定
             GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
@@ -122,6 +130,8 @@ namespace GSessionManager
 
             // ポップアップ登録
             this.notifyIcon1.BalloonTipClicked += new EventHandler((_sender, _e) => { PopupSchedule(); });
+
+            return true;
         }
 
         private void 終了ToolStripMenuItem_Click(object sender, EventArgs e)
