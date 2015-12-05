@@ -95,7 +95,13 @@ namespace GSessionManager
         {
 
             // ID・PassWord設定
-            GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
+            bool init = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
+            if (!init)
+            {
+                MessageBox.Show("ID/Passwordが違います。");
+                notifyIcon1.Visible = false;
+                return false;
+            }
 
             System.Threading.Thread th = new System.Threading.Thread(() =>
             {
