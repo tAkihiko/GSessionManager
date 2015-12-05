@@ -87,7 +87,7 @@ namespace GSessionManager
             PopupScheduleText = "";
 
             // ID・PassWord設定
-            GSessionCtrl.Ctrl.ParamSetting("1234", "1111");
+            GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
 
             System.Threading.Thread th = new System.Threading.Thread(() =>
             {

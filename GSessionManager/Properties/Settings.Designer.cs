@@ -22,5 +22,29 @@ namespace GSessionManager.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1234")]
+        public string UserID {
+            get {
+                return ((string)(this["UserID"]));
+            }
+            set {
+                this["UserID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5678")]
+        public string PassWord {
+            get {
+                return ((string)(this["PassWord"]));
+            }
+            set {
+                this["PassWord"] = value;
+            }
+        }
     }
 }
