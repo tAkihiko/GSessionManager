@@ -252,7 +252,7 @@ namespace GSessionManager
 
                 if (PopupScheduleText.Length > 0)
                 {
-                    text += "\n\n" + PopupScheduleText;
+                    text += "\r\n\r\n" + PopupScheduleText.Replace("<BR>", "\r\n");
                 }
 
                 topmostform.TopMost = true;
