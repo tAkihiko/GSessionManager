@@ -319,7 +319,7 @@ namespace GSessionManager
 
                             this.notifyIcon1.BalloonTipText = title;
                             this.notifyIcon1.BalloonTipTitle = "スケジュール";
-                                                        
+
                             PopupScheduleRegister(title, text);
 
                             this.notifyIcon1.ShowBalloonTip(30000);
@@ -330,7 +330,7 @@ namespace GSessionManager
                 {
                     System.Threading.Monitor.Exit(LockGettingSchedule);
                 }
-                
+
             }
         }
 
