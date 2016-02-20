@@ -283,14 +283,15 @@ namespace GSessionManager
                 try
                 {
                     TimeSpan ts;
-                    foreach (ScheduleNode sch in SchList)
+                    foreach (int i in Enumerable.Range(0, SchList.Count()))
                     {
+                        ScheduleNode sch = SchList[i];
                         ts = sch.Begin - DateTime.Now;
 
                         // ポップアップ通知（時間目前）
                         if (Math.Abs(ts.TotalMilliseconds) <= this.ScheduleCheckTimer.Interval && !sch.Viewed)
                         {
-                            sch.Viewed = true;
+                            SchList[i].Viewed = true;
                             PopupScheduleRegister(sch);
                             PopupSchedule();
                         }
