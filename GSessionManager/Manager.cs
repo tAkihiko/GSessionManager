@@ -85,9 +85,23 @@ namespace GSessionManager
             LockGettingSchedule = new object();
             PopupScheduleTitle = "";
             PopupScheduleText = "";
+        }
+
+        /// <summary>
+        /// アプリケーション開始
+        /// </summary>
+        /// <returns>true: 初期化成功, false: 初期化失敗</returns>
+        public bool Start()
+        {
 
             // ID・PassWord設定
-            GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
+            bool init = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
+            if (!init)
+            {
+                MessageBox.Show("ID/Passwordが違います。");
+                notifyIcon1.Visible = false;
+                return false;
+            }
 
             System.Threading.Thread th = new System.Threading.Thread(() =>
             {
@@ -122,6 +136,8 @@ namespace GSessionManager
 
             // ポップアップ登録
             this.notifyIcon1.BalloonTipClicked += new EventHandler((_sender, _e) => { PopupSchedule(); });
+
+            return true;
         }
 
         private void 終了ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -236,7 +252,7 @@ namespace GSessionManager
 
                 if (PopupScheduleText.Length > 0)
                 {
-                    text += "\n\n" + PopupScheduleText;
+                    text += "\r\n\r\n" + PopupScheduleText.Replace("<BR>", "\r\n");
                 }
 
                 topmostform.TopMost = true;
@@ -304,7 +320,7 @@ namespace GSessionManager
 
                             this.notifyIcon1.BalloonTipText = title;
                             this.notifyIcon1.BalloonTipTitle = "スケジュール";
-                                                        
+
                             PopupScheduleRegister(title, text);
 
                             this.notifyIcon1.ShowBalloonTip(30000);
@@ -315,7 +331,7 @@ namespace GSessionManager
                 {
                     System.Threading.Monitor.Exit(LockGettingSchedule);
                 }
-                
+
             }
         }
 
