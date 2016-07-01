@@ -34,6 +34,10 @@
             this.textBox_PW = new System.Windows.Forms.TextBox();
             this.button_Check = new System.Windows.Forms.Button();
             this.button_Save = new System.Windows.Forms.Button();
+            this.label_SchNotifyTime = new System.Windows.Forms.Label();
+            this.label_SchPopupTime = new System.Windows.Forms.Label();
+            this.textBox_SchPopupTime = new System.Windows.Forms.TextBox();
+            this.textBox_SchNotifyTime = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label_ID
@@ -71,7 +75,7 @@
             // 
             // button_Check
             // 
-            this.button_Check.Location = new System.Drawing.Point(116, 73);
+            this.button_Check.Location = new System.Drawing.Point(181, 73);
             this.button_Check.Name = "button_Check";
             this.button_Check.Size = new System.Drawing.Size(75, 23);
             this.button_Check.TabIndex = 3;
@@ -81,7 +85,7 @@
             // 
             // button_Save
             // 
-            this.button_Save.Location = new System.Drawing.Point(197, 73);
+            this.button_Save.Location = new System.Drawing.Point(197, 217);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
             this.button_Save.TabIndex = 3;
@@ -89,11 +93,49 @@
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
             // 
+            // label_SchNotifyTime
+            // 
+            this.label_SchNotifyTime.AutoSize = true;
+            this.label_SchNotifyTime.Location = new System.Drawing.Point(29, 144);
+            this.label_SchNotifyTime.Name = "label_SchNotifyTime";
+            this.label_SchNotifyTime.Size = new System.Drawing.Size(68, 12);
+            this.label_SchNotifyTime.TabIndex = 4;
+            this.label_SchNotifyTime.Text = "バルーン通知";
+            // 
+            // label_SchPopupTime
+            // 
+            this.label_SchPopupTime.AutoSize = true;
+            this.label_SchPopupTime.Location = new System.Drawing.Point(17, 118);
+            this.label_SchPopupTime.Name = "label_SchPopupTime";
+            this.label_SchPopupTime.Size = new System.Drawing.Size(80, 12);
+            this.label_SchPopupTime.TabIndex = 4;
+            this.label_SchPopupTime.Text = "ポップアップ通知";
+            // 
+            // textBox_SchPopupTime
+            // 
+            this.textBox_SchPopupTime.Location = new System.Drawing.Point(103, 115);
+            this.textBox_SchPopupTime.Name = "textBox_SchPopupTime";
+            this.textBox_SchPopupTime.Size = new System.Drawing.Size(153, 19);
+            this.textBox_SchPopupTime.TabIndex = 5;
+            this.textBox_SchPopupTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_NumberOnly_KeyPress);
+            // 
+            // textBox_SchNotifyTime
+            // 
+            this.textBox_SchNotifyTime.Location = new System.Drawing.Point(103, 141);
+            this.textBox_SchNotifyTime.Name = "textBox_SchNotifyTime";
+            this.textBox_SchNotifyTime.Size = new System.Drawing.Size(153, 19);
+            this.textBox_SchNotifyTime.TabIndex = 5;
+            this.textBox_SchNotifyTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_NumberOnly_KeyPress);
+            // 
             // SettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 114);
+            this.ClientSize = new System.Drawing.Size(284, 252);
+            this.Controls.Add(this.textBox_SchNotifyTime);
+            this.Controls.Add(this.textBox_SchPopupTime);
+            this.Controls.Add(this.label_SchPopupTime);
+            this.Controls.Add(this.label_SchNotifyTime);
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.button_Check);
             this.Controls.Add(this.textBox_PW);
@@ -116,5 +158,9 @@
         private System.Windows.Forms.TextBox textBox_PW;
         private System.Windows.Forms.Button button_Check;
         private System.Windows.Forms.Button button_Save;
+        private System.Windows.Forms.Label label_SchNotifyTime;
+        private System.Windows.Forms.Label label_SchPopupTime;
+        private System.Windows.Forms.TextBox textBox_SchPopupTime;
+        private System.Windows.Forms.TextBox textBox_SchNotifyTime;
     }
 }

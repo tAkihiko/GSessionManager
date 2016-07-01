@@ -33,9 +33,14 @@ namespace GSessionManager
         object LockGettingSchedule = null;
 
         /// <summary>
-        /// スケジュール通知前時間 [ミリ秒]
+        /// スケジュールポップアップ通知前時間 [ミリ秒]
         /// </summary>
-        int ScheduleNotfyTime = 60000;
+        uint SchedulePopupTime = 0;
+
+        /// <summary>
+        /// スケジュールバルーン通知前時間 [ミリ秒]
+        /// </summary>
+        uint ScheduleNotfyTime = 60000;
 
         /// <summary>
         /// スケジュールノード
@@ -80,11 +85,24 @@ namespace GSessionManager
             InitializeComponent();
 
             ScheduleNotfyTime = 60000;
+            SchedulePopupTime = 0;
             StayFlg = false;
             SchList = new List<ScheduleNode>();
             LockGettingSchedule = new object();
             PopupScheduleTitle = "";
             PopupScheduleText = "";
+        }
+
+        /// <summary>
+        /// 設定Formを表示
+        /// </summary>
+        public void ShowSettingForm()
+        {
+            SettingForm set = new SettingForm();
+            set.ShowDialog();
+            ScheduleNotfyTime = Properties.Settings.Default.ScheduleNotfyTime * 1000;
+            SchedulePopupTime = Properties.Settings.Default.SchedulePopupTime * 1000;
+            return;
         }
 
         /// <summary>
@@ -96,11 +114,10 @@ namespace GSessionManager
 
             // ID・PassWord設定
             bool init = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
+            ShowSettingForm();
             if (!init)
             {
                 MessageBox.Show("ID/Passwordが違います。");
-                SettingForm set = new SettingForm();
-                set.ShowDialog();
                 bool check = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
                 if (!check)
                 {
@@ -310,8 +327,8 @@ namespace GSessionManager
                         ScheduleNode sch = SchList[i];
                         ts = sch.Begin - DateTime.Now;
 
-                        // ポップアップ通知（時間目前）
-                        if (Math.Abs(ts.TotalMilliseconds) <= this.ScheduleCheckTimer.Interval && !sch.Viewed)
+                        // ポップアップ通知（SchedulePopupTimeミリ秒前）
+                        if (ts.TotalMilliseconds <= (SchedulePopupTime + this.ScheduleCheckTimer.Interval) && !sch.Viewed)
                         {
                             SchList[i].Viewed = true;
                             PopupScheduleRegister(sch);
@@ -353,8 +370,7 @@ namespace GSessionManager
         /// <param name="e"></param>
         private void 設定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SettingForm set = new SettingForm();
-            set.ShowDialog();
+            ShowSettingForm();
         }
     }
 }

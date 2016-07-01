@@ -20,6 +20,8 @@ namespace GSessionManager
         {
             this.textBox_ID.Text = Properties.Settings.Default.UserID;
             this.textBox_PW.Text = Properties.Settings.Default.PassWord;
+            this.textBox_SchNotifyTime.Text = Properties.Settings.Default.ScheduleNotfyTime.ToString();
+            this.textBox_SchPopupTime.Text = Properties.Settings.Default.SchedulePopupTime.ToString();
         }
 
         private void button_Check_Click(object sender, EventArgs e)
@@ -42,12 +44,26 @@ namespace GSessionManager
             {
                 Properties.Settings.Default.UserID = this.textBox_ID.Text;
                 Properties.Settings.Default.PassWord = this.textBox_PW.Text;
+                Properties.Settings.Default.ScheduleNotfyTime = uint.Parse(this.textBox_SchNotifyTime.Text);
+                Properties.Settings.Default.SchedulePopupTime = uint.Parse(this.textBox_SchPopupTime.Text);
                 Properties.Settings.Default.Save();
                 this.Close();
             }
             else
             {
                 MessageBox.Show("接続できませんでした。");
+            }
+        }
+
+        private void textBox_NumberOnly_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar < '0') || ('9' < e.KeyChar))
+            {
+                if (e.KeyChar != '\b')  // バックスペース
+                {
+                    // ハンドルを無効に
+                    e.Handled = true;
+                }
             }
         }
     }
