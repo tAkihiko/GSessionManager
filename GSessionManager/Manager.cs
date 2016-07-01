@@ -114,13 +114,14 @@ namespace GSessionManager
 
             // ID・PassWord設定
             bool init = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
-            ShowSettingForm();
             if (!init)
             {
-                MessageBox.Show("ID/Passwordが違います。");
+                ShowSettingForm();
                 bool check = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
                 if (!check)
                 {
+
+                    MessageBox.Show("接続できませんでした。");
                     notifyIcon1.Visible = false;
                     return false;
                 }
