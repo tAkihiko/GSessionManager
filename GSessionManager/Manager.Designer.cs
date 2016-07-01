@@ -134,7 +134,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Name = "Manager";
-            this.Text = "Form1";
+            this.Text = "GSManager";
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
