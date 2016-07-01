@@ -8,5 +8,11 @@
     <Setting Name="PassWord" Type="System.String" Scope="User">
       <Value Profile="(Default)">5678</Value>
     </Setting>
+    <Setting Name="ScheduleNotfyTime" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="SchedulePopupTime" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

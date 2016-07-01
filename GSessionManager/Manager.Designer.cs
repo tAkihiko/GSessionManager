@@ -36,6 +36,8 @@
             this.在席ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.不在ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.スケジュール取得ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.終了ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScheduleGetTimer = new System.Windows.Forms.Timer(this.components);
@@ -55,10 +57,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.在席管理ToolStripMenuItem,
             this.スケジュール取得ToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.設定ToolStripMenuItem,
             this.toolStripSeparator1,
             this.終了ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 104);
             // 
             // 在席管理ToolStripMenuItem
             // 
@@ -90,6 +94,18 @@
             this.スケジュール取得ToolStripMenuItem.Text = "スケジュール取得";
             this.スケジュール取得ToolStripMenuItem.Click += new System.EventHandler(this.スケジュール取得ToolStripMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+            // 
+            // 設定ToolStripMenuItem
+            // 
+            this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.設定ToolStripMenuItem.Text = "設定";
+            this.設定ToolStripMenuItem.Click += new System.EventHandler(this.設定ToolStripMenuItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -118,7 +134,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Name = "Manager";
-            this.Text = "Form1";
+            this.Text = "GSManager";
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -136,6 +152,8 @@
         private System.Windows.Forms.Timer ScheduleCheckTimer;
         private System.Windows.Forms.ToolStripMenuItem スケジュール取得ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem 設定ToolStripMenuItem;
     }
 }
 
