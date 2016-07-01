@@ -99,8 +99,14 @@ namespace GSessionManager
             if (!init)
             {
                 MessageBox.Show("ID/Passwordが違います。");
-                notifyIcon1.Visible = false;
-                return false;
+                SettingForm set = new SettingForm();
+                set.ShowDialog();
+                bool check = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
+                if (!check)
+                {
+                    notifyIcon1.Visible = false;
+                    return false;
+                }
             }
 
             System.Threading.Thread th = new System.Threading.Thread(() =>
@@ -338,6 +344,17 @@ namespace GSessionManager
         private void スケジュール取得ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetSchedule();
+        }
+
+        /// <summary>
+        /// 設定ボタン押下
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 設定ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingForm set = new SettingForm();
+            set.ShowDialog();
         }
     }
 }
