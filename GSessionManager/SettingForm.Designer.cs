@@ -63,7 +63,7 @@
             this.textBox_ID.Location = new System.Drawing.Point(91, 19);
             this.textBox_ID.Name = "textBox_ID";
             this.textBox_ID.Size = new System.Drawing.Size(165, 19);
-            this.textBox_ID.TabIndex = 2;
+            this.textBox_ID.TabIndex = 0;
             // 
             // textBox_PW
             // 
@@ -71,14 +71,14 @@
             this.textBox_PW.Name = "textBox_PW";
             this.textBox_PW.PasswordChar = '●';
             this.textBox_PW.Size = new System.Drawing.Size(165, 19);
-            this.textBox_PW.TabIndex = 2;
+            this.textBox_PW.TabIndex = 1;
             // 
             // button_Check
             // 
             this.button_Check.Location = new System.Drawing.Point(181, 73);
             this.button_Check.Name = "button_Check";
             this.button_Check.Size = new System.Drawing.Size(75, 23);
-            this.button_Check.TabIndex = 3;
+            this.button_Check.TabIndex = 2;
             this.button_Check.Text = "接続確認";
             this.button_Check.UseVisualStyleBackColor = true;
             this.button_Check.Click += new System.EventHandler(this.button_Check_Click);
@@ -88,7 +88,7 @@
             this.button_Save.Location = new System.Drawing.Point(197, 217);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
-            this.button_Save.TabIndex = 3;
+            this.button_Save.TabIndex = 5;
             this.button_Save.Text = "保存";
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
@@ -116,7 +116,7 @@
             this.textBox_SchPopupTime.Location = new System.Drawing.Point(103, 115);
             this.textBox_SchPopupTime.Name = "textBox_SchPopupTime";
             this.textBox_SchPopupTime.Size = new System.Drawing.Size(153, 19);
-            this.textBox_SchPopupTime.TabIndex = 5;
+            this.textBox_SchPopupTime.TabIndex = 3;
             this.textBox_SchPopupTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_NumberOnly_KeyPress);
             // 
             // textBox_SchNotifyTime
@@ -124,7 +124,7 @@
             this.textBox_SchNotifyTime.Location = new System.Drawing.Point(103, 141);
             this.textBox_SchNotifyTime.Name = "textBox_SchNotifyTime";
             this.textBox_SchNotifyTime.Size = new System.Drawing.Size(153, 19);
-            this.textBox_SchNotifyTime.TabIndex = 5;
+            this.textBox_SchNotifyTime.TabIndex = 4;
             this.textBox_SchNotifyTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_NumberOnly_KeyPress);
             // 
             // SettingForm
