@@ -210,9 +210,14 @@ namespace GSessionManager
 
                 SchList.Clear();
 
+                TimeSpan ts;
                 foreach (GSessionCtrl.Ctrl.ScheduleNode sch in schlist)
                 {
-                    SchList.Add(new ScheduleNode(sch));
+                    ts = sch.Begin - DateTime.Now;
+                    if (0 < ts.Milliseconds)
+                    {
+                        SchList.Add(new ScheduleNode(sch));
+                    }
                 }
             }
         }
