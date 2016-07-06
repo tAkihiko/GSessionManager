@@ -84,8 +84,8 @@ namespace GSessionManager
         {
             InitializeComponent();
 
-            ScheduleNotfyTime = 60000;
-            SchedulePopupTime = 0;
+            ScheduleNotfyTime = Properties.Settings.Default.ScheduleNotfyTime * 1000;
+            SchedulePopupTime = Properties.Settings.Default.SchedulePopupTime * 1000;
             StayFlg = false;
             SchList = new List<ScheduleNode>();
             LockGettingSchedule = new object();
