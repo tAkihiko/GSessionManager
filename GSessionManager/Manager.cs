@@ -271,17 +271,36 @@ namespace GSessionManager
         /// <summary>
         /// スケジュールのポップアップ
         /// </summary>
+        /// <param name="sch">スケジュールノード</param>
+        private void PopupSchedule(ScheduleNode sch)
+        {
+            PopupSchedule(sch.Title, sch.Text);
+        }
+
+        /// <summary>
+        /// スケジュールのポップアップ
+        /// </summary>
         private void PopupSchedule()
+        {
+            PopupSchedule(PopupScheduleTitle, PopupScheduleText);
+        }
+
+        /// <summary>
+        /// スケジュールのポップアップ
+        /// </summary>
+        /// <param name="title">タイトル</param>
+        /// <param name="detail">詳細</param>
+        private void PopupSchedule(string title, string detail)
         {
             using (Form topmostform = new Form())
             {
                 string text;
 
-                text = PopupScheduleTitle;
+                text = title;
 
-                if (PopupScheduleText.Length > 0)
+                if (detail.Length > 0)
                 {
-                    text += "\r\n\r\n" + PopupScheduleText.Replace("<BR>", "\r\n");
+                    text += "\r\n\r\n" + detail.Replace("<BR>", "\r\n");
                 }
 
                 topmostform.TopMost = true;
@@ -337,8 +356,7 @@ namespace GSessionManager
                         if (ts.TotalMilliseconds <= (SchedulePopupTime + this.ScheduleCheckTimer.Interval) && !sch.Viewed)
                         {
                             SchList[i].Viewed = true;
-                            PopupScheduleRegister(sch);
-                            PopupSchedule();
+                            PopupSchedule(sch);
                         }
 
                         // バルーンで通知（ScheduleNotfyTimeミリ秒前）
