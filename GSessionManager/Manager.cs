@@ -292,21 +292,25 @@ namespace GSessionManager
         /// <param name="detail">詳細</param>
         private void PopupSchedule(string title, string detail)
         {
-            using (Form topmostform = new Form())
-            {
-                string text;
-
-                text = title;
-
-                if (detail.Length > 0)
+            System.Threading.Thread th = new System.Threading.Thread(() =>
                 {
-                    text += "\r\n\r\n" + detail.Replace("<BR>", "\r\n");
-                }
+                    using (Form topmostform = new Form())
+                    {
+                        string text;
 
-                topmostform.TopMost = true;
-                MessageBox.Show(topmostform, text, "スケジュール");
-                topmostform.TopMost = false;
-            }
+                        text = title;
+
+                        if (detail.Length > 0)
+                        {
+                            text += "\r\n\r\n" + detail.Replace("<BR>", "\r\n");
+                        }
+
+                        topmostform.TopMost = true;
+                        MessageBox.Show(topmostform, text, "スケジュール");
+                        topmostform.TopMost = false;
+                    }
+                });
+            th.Start();
         }
 
         /// <summary>
