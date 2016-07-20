@@ -84,8 +84,8 @@ namespace GSessionManager
         {
             InitializeComponent();
 
-            ScheduleNotfyTime = 60000;
-            SchedulePopupTime = 0;
+            ScheduleNotfyTime = Properties.Settings.Default.ScheduleNotfyTime * 1000;
+            SchedulePopupTime = Properties.Settings.Default.SchedulePopupTime * 1000;
             StayFlg = false;
             SchList = new List<ScheduleNode>();
             LockGettingSchedule = new object();
@@ -210,9 +210,14 @@ namespace GSessionManager
 
                 SchList.Clear();
 
+                TimeSpan ts;
                 foreach (GSessionCtrl.Ctrl.ScheduleNode sch in schlist)
                 {
-                    SchList.Add(new ScheduleNode(sch));
+                    ts = sch.Begin - DateTime.Now;
+                    if (0 < ts.Milliseconds)
+                    {
+                        SchList.Add(new ScheduleNode(sch));
+                    }
                 }
             }
         }
@@ -266,23 +271,46 @@ namespace GSessionManager
         /// <summary>
         /// スケジュールのポップアップ
         /// </summary>
+        /// <param name="sch">スケジュールノード</param>
+        private void PopupSchedule(ScheduleNode sch)
+        {
+            PopupSchedule(sch.Title, sch.Text);
+        }
+
+        /// <summary>
+        /// スケジュールのポップアップ
+        /// </summary>
         private void PopupSchedule()
         {
-            using (Form topmostform = new Form())
-            {
-                string text;
+            PopupSchedule(PopupScheduleTitle, PopupScheduleText);
+        }
 
-                text = PopupScheduleTitle;
-
-                if (PopupScheduleText.Length > 0)
+        /// <summary>
+        /// スケジュールのポップアップ
+        /// </summary>
+        /// <param name="title">タイトル</param>
+        /// <param name="detail">詳細</param>
+        private void PopupSchedule(string title, string detail)
+        {
+            System.Threading.Thread th = new System.Threading.Thread(() =>
                 {
-                    text += "\r\n\r\n" + PopupScheduleText.Replace("<BR>", "\r\n");
-                }
+                    using (Form topmostform = new Form())
+                    {
+                        string text;
 
-                topmostform.TopMost = true;
-                MessageBox.Show(topmostform, text, "スケジュール");
-                topmostform.TopMost = false;
-            }
+                        text = title;
+
+                        if (detail.Length > 0)
+                        {
+                            text += "\r\n\r\n" + detail.Replace("<BR>", "\r\n");
+                        }
+
+                        topmostform.TopMost = true;
+                        MessageBox.Show(topmostform, text, "スケジュール");
+                        topmostform.TopMost = false;
+                    }
+                });
+            th.Start();
         }
 
         /// <summary>
@@ -332,8 +360,7 @@ namespace GSessionManager
                         if (ts.TotalMilliseconds <= (SchedulePopupTime + this.ScheduleCheckTimer.Interval) && !sch.Viewed)
                         {
                             SchList[i].Viewed = true;
-                            PopupScheduleRegister(sch);
-                            PopupSchedule();
+                            PopupSchedule(sch);
                         }
 
                         // バルーンで通知（ScheduleNotfyTimeミリ秒前）
