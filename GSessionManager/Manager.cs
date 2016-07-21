@@ -292,7 +292,8 @@ namespace GSessionManager
         /// <param name="detail">詳細</param>
         private void PopupSchedule(string title, string detail)
         {
-            System.Threading.Thread th = new System.Threading.Thread(() =>
+            // マルチスレッド化すると TopMost プロパティが通用しなくなるため、無効化
+            //System.Threading.Thread th = new System.Threading.Thread(() =>
                 {
                     using (Form topmostform = new Form())
                     {
@@ -309,8 +310,9 @@ namespace GSessionManager
                         MessageBox.Show(topmostform, text, "スケジュール");
                         topmostform.TopMost = false;
                     }
-                });
-            th.Start();
+                }
+            //);
+            //th.Start();
         }
 
         /// <summary>
