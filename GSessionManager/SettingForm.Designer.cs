@@ -38,6 +38,7 @@
             this.label_SchPopupTime = new System.Windows.Forms.Label();
             this.textBox_SchPopupTime = new System.Windows.Forms.TextBox();
             this.textBox_SchNotifyTime = new System.Windows.Forms.TextBox();
+            this.checkBox_AutoChangeZaiseki = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label_ID
@@ -85,7 +86,7 @@
             // 
             // button_Save
             // 
-            this.button_Save.Location = new System.Drawing.Point(197, 217);
+            this.button_Save.Location = new System.Drawing.Point(197, 258);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
             this.button_Save.TabIndex = 5;
@@ -127,11 +128,22 @@
             this.textBox_SchNotifyTime.TabIndex = 4;
             this.textBox_SchNotifyTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_NumberOnly_KeyPress);
             // 
+            // checkBox_AutoChangeZaiseki
+            // 
+            this.checkBox_AutoChangeZaiseki.AutoSize = true;
+            this.checkBox_AutoChangeZaiseki.Location = new System.Drawing.Point(19, 173);
+            this.checkBox_AutoChangeZaiseki.Name = "checkBox_AutoChangeZaiseki";
+            this.checkBox_AutoChangeZaiseki.Size = new System.Drawing.Size(135, 16);
+            this.checkBox_AutoChangeZaiseki.TabIndex = 6;
+            this.checkBox_AutoChangeZaiseki.Text = "在席・不在を自動操作";
+            this.checkBox_AutoChangeZaiseki.UseVisualStyleBackColor = true;
+            // 
             // SettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 252);
+            this.ClientSize = new System.Drawing.Size(284, 293);
+            this.Controls.Add(this.checkBox_AutoChangeZaiseki);
             this.Controls.Add(this.textBox_SchNotifyTime);
             this.Controls.Add(this.textBox_SchPopupTime);
             this.Controls.Add(this.label_SchPopupTime);
@@ -162,5 +174,6 @@
         private System.Windows.Forms.Label label_SchPopupTime;
         private System.Windows.Forms.TextBox textBox_SchPopupTime;
         private System.Windows.Forms.TextBox textBox_SchNotifyTime;
+        private System.Windows.Forms.CheckBox checkBox_AutoChangeZaiseki;
     }
 }
