@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GSessionManager
@@ -213,12 +214,14 @@ namespace GSessionManager
         /// </summary>
         private void GetSchedule()
         {
-            lock (LockGettingSchedule)
+            Monitor.Enter(LockGettingSchedule);
+            try
             {
                 List<GSessionCtrl.Ctrl.ScheduleNode> schlist = GSessionCtrl.Ctrl.Schedule();
 
                 if (schlist == null)
                 {
+                    Monitor.Exit(LockGettingSchedule);
                     return;
                 }
 
@@ -237,6 +240,10 @@ namespace GSessionManager
                         }
                     }
                 }
+            }
+            finally
+            {
+                Monitor.Exit(LockGettingSchedule);
             }
         }
 
