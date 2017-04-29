@@ -22,6 +22,7 @@ namespace GSessionManager
             this.textBox_PW.Text = Properties.Settings.Default.PassWord;
             this.textBox_SchNotifyTime.Text = Properties.Settings.Default.ScheduleNotfyTime.ToString();
             this.textBox_SchPopupTime.Text = Properties.Settings.Default.SchedulePopupTime.ToString();
+            this.checkBox_AutoChangeZaiseki.Checked = Properties.Settings.Default.AutoChangeZaiseki;
         }
 
         private void button_Check_Click(object sender, EventArgs e)
@@ -46,6 +47,7 @@ namespace GSessionManager
                 Properties.Settings.Default.PassWord = this.textBox_PW.Text;
                 Properties.Settings.Default.ScheduleNotfyTime = uint.Parse(this.textBox_SchNotifyTime.Text);
                 Properties.Settings.Default.SchedulePopupTime = uint.Parse(this.textBox_SchPopupTime.Text);
+                Properties.Settings.Default.AutoChangeZaiseki = this.checkBox_AutoChangeZaiseki.Checked;
                 Properties.Settings.Default.Save();
                 this.Close();
             }

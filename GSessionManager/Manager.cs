@@ -133,8 +133,8 @@ namespace GSessionManager
                 // 最初は必ず在席状態にする。
                 try
                 {
-                    GSessionCtrl.Ctrl.Zaiseki();
-                    StayFlg = true;
+                    StayFlg = false;
+                    Zaiseki();
                 }
                 finally
                 {
@@ -175,7 +175,7 @@ namespace GSessionManager
         /// </summary>
         private void Zaiseki()
         {
-            if (!StayFlg)
+            if (!StayFlg && Properties.Settings.Default.AutoChangeZaiseki)
             {
                 GSessionCtrl.Ctrl.Zaiseki();
                 StayFlg = true;
@@ -187,7 +187,7 @@ namespace GSessionManager
         /// </summary>
         private void Huzai()
         {
-            if (StayFlg)
+            if (StayFlg && Properties.Settings.Default.AutoChangeZaiseki)
             {
                 GSessionCtrl.Ctrl.Huzai();
                 StayFlg = false;
@@ -232,7 +232,7 @@ namespace GSessionManager
             {
                 case WM_QUERYENDSESSION:
                 case WM_ENDSESSION:
-                    if (StayFlg)
+                    if (StayFlg && Properties.Settings.Default.AutoChangeZaiseki)
                     {
                         try
                         {
