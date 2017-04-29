@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingForm));
             this.label_ID = new System.Windows.Forms.Label();
             this.label_PW = new System.Windows.Forms.Label();
             this.textBox_ID = new System.Windows.Forms.TextBox();
@@ -154,6 +155,7 @@
             this.Controls.Add(this.textBox_ID);
             this.Controls.Add(this.label_PW);
             this.Controls.Add(this.label_ID);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SettingForm";
             this.Text = "SettingForm";
             this.Load += new System.EventHandler(this.SettingForm_Load);
