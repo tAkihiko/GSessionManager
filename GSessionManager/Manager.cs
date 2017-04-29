@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GSessionManager
@@ -213,26 +214,51 @@ namespace GSessionManager
         /// </summary>
         private void GetSchedule()
         {
-            lock (LockGettingSchedule)
+            Monitor.Enter(LockGettingSchedule);
+            try
             {
                 List<GSessionCtrl.Ctrl.ScheduleNode> schlist = GSessionCtrl.Ctrl.Schedule();
 
                 if (schlist == null)
                 {
+                    Monitor.Exit(LockGettingSchedule);
                     return;
                 }
 
-                SchList.Clear();
-
                 TimeSpan ts;
+                List<ulong> idlist = new List<ulong>();
+                int idx;
                 foreach (GSessionCtrl.Ctrl.ScheduleNode sch in schlist)
                 {
                     ts = sch.Begin - DateTime.Now;
                     if (0 < ts.Milliseconds)
                     {
-                        SchList.Add(new ScheduleNode(sch));
+                        // スケジュールIDのリスト
+                        idlist.Add(sch.Id);
+
+                        idx = SchList.FindIndex(node => node.Id == sch.Id);
+                        if (idx < 0)
+                        {
+                            // 新規追加・更新でIDに変更があれば追加する
+                            SchList.Add(new ScheduleNode(sch));
+                        }
+
                     }
                 }
+
+                // 存在しないスケジュールは既に見たことにする。
+                for (int i = 0; i < SchList.Count(); i++)
+			    {
+                    idx = idlist.FindIndex(node => node == SchList[i].Id);
+                    if (idx < 0)
+                    {
+                        SchList[i].Viewed = true;
+                    }
+			    }
+            }
+            finally
+            {
+                Monitor.Exit(LockGettingSchedule);
             }
         }
 
@@ -380,7 +406,7 @@ namespace GSessionManager
                         }
 
                         // バルーンで通知（ScheduleNotfyTimeミリ秒前）
-                        if (ScheduleNotfyTime <= ts.TotalMilliseconds && ts.TotalMilliseconds < (ScheduleNotfyTime + this.ScheduleCheckTimer.Interval))
+                        if (ScheduleNotfyTime <= ts.TotalMilliseconds && ts.TotalMilliseconds < (ScheduleNotfyTime + this.ScheduleCheckTimer.Interval) && !sch.Viewed)
                         {
                             string title = sch.Title;
                             string text = sch.Text;
