@@ -52,14 +52,14 @@ namespace GSessionManager
             /// </summary>
             public bool Viewed { get; set; }
 
-            public ScheduleNode(string name, DateTime begin, DateTime end, string title, string text)
-                : base( name, begin, end, title, text )
+            public ScheduleNode(ulong id, string name, DateTime begin, DateTime end, string title, string text)
+                : base( id, name, begin, end, title, text )
             {
                 Viewed = false;
             }
 
             public ScheduleNode(GSessionCtrl.Ctrl.ScheduleNode node)
-                : this(node.Name, node.Begin, node.End, node.Title, node.Text) { }
+                : this(node.Id, node.Name, node.Begin, node.End, node.Title, node.Text) { }
         }
 
         /// <summary>
