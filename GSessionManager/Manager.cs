@@ -23,6 +23,11 @@ namespace GSessionManager
         extern static bool ShutdownBlockReasonDestroy(IntPtr hWnd);
 
         /// <summary>
+        /// GSessionCtrl.dllの必要バージョン
+        /// </summary>
+        static System.Version RequireCtrlVersion = new Version("2.2.0.0");
+
+        /// <summary>
         /// 在席・不在フラグ
         /// </summary>
         bool StayFlg = false;
@@ -52,14 +57,14 @@ namespace GSessionManager
             /// </summary>
             public bool Viewed { get; set; }
 
-            public ScheduleNode(string name, DateTime begin, DateTime end, string title, string text)
-                : base( name, begin, end, title, text )
+            public ScheduleNode(ulong id, string name, DateTime begin, DateTime end, string title, string text)
+                : base( id, name, begin, end, title, text )
             {
                 Viewed = false;
             }
 
             public ScheduleNode(GSessionCtrl.Ctrl.ScheduleNode node)
-                : this(node.Name, node.Begin, node.End, node.Title, node.Text) { }
+                : this(node.Id, node.Name, node.Begin, node.End, node.Title, node.Text) { }
         }
 
         /// <summary>
@@ -111,6 +116,15 @@ namespace GSessionManager
         /// <returns>true: 初期化成功, false: 初期化失敗</returns>
         public bool Start()
         {
+            // GSessionCtrl.dllのバージョン確認
+            System.Version ctrlver = GSessionCtrl.Ctrl.GetVersion();
+            if (ctrlver < RequireCtrlVersion)
+            {
+                MessageBox.Show(String.Format("GSessionCtrl.dllのバージョンが古いため実行できません。\nVersion {0} （以上）が必要です。", RequireCtrlVersion));
+                notifyIcon1.Visible = false;
+                return false;
+            }
+
 
             // ID・PassWord設定
             bool init = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
