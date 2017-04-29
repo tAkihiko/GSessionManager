@@ -222,15 +222,19 @@ namespace GSessionManager
                     return;
                 }
 
-                SchList.Clear();
-
                 TimeSpan ts;
                 foreach (GSessionCtrl.Ctrl.ScheduleNode sch in schlist)
                 {
                     ts = sch.Begin - DateTime.Now;
                     if (0 < ts.Milliseconds)
                     {
-                        SchList.Add(new ScheduleNode(sch));
+                        int idx;
+                        idx = SchList.FindIndex(node => node.Id == sch.Id);
+                        if (idx < 0)
+                        {
+                            // 新規追加・更新でIDに変更があれば追加する
+                            SchList.Add(new ScheduleNode(sch));
+                        }
                     }
                 }
             }
