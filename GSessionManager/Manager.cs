@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GSessionManager
@@ -21,6 +22,11 @@ namespace GSessionManager
         extern static bool ShutdownBlockReasonCreate(IntPtr hWnd, string str);
         [DllImport("user32.dll")]
         extern static bool ShutdownBlockReasonDestroy(IntPtr hWnd);
+
+        /// <summary>
+        /// GSessionCtrl.dllの必要バージョン
+        /// </summary>
+        static System.Version RequireCtrlVersion = new Version("2.2.0.0");
 
         /// <summary>
         /// 在席・不在フラグ
@@ -52,14 +58,14 @@ namespace GSessionManager
             /// </summary>
             public bool Viewed { get; set; }
 
-            public ScheduleNode(string name, DateTime begin, DateTime end, string title, string text)
-                : base( name, begin, end, title, text )
+            public ScheduleNode(ulong id, string name, DateTime begin, DateTime end, string title, string text)
+                : base( id, name, begin, end, title, text )
             {
                 Viewed = false;
             }
 
             public ScheduleNode(GSessionCtrl.Ctrl.ScheduleNode node)
-                : this(node.Name, node.Begin, node.End, node.Title, node.Text) { }
+                : this(node.Id, node.Name, node.Begin, node.End, node.Title, node.Text) { }
         }
 
         /// <summary>
@@ -111,6 +117,15 @@ namespace GSessionManager
         /// <returns>true: 初期化成功, false: 初期化失敗</returns>
         public bool Start()
         {
+            // GSessionCtrl.dllのバージョン確認
+            System.Version ctrlver = GSessionCtrl.Ctrl.GetVersion();
+            if (ctrlver < RequireCtrlVersion)
+            {
+                MessageBox.Show(String.Format("GSessionCtrl.dllのバージョンが古いため実行できません。\nVersion {0} （以上）が必要です。", RequireCtrlVersion));
+                notifyIcon1.Visible = false;
+                return false;
+            }
+
 
             // ID・PassWord設定
             bool init = GSessionCtrl.Ctrl.ParamSetting(Properties.Settings.Default.UserID, Properties.Settings.Default.PassWord);
@@ -133,8 +148,8 @@ namespace GSessionManager
                 // 最初は必ず在席状態にする。
                 try
                 {
-                    GSessionCtrl.Ctrl.Zaiseki();
-                    StayFlg = true;
+                    StayFlg = false;
+                    Zaiseki();
                 }
                 finally
                 {
@@ -175,7 +190,7 @@ namespace GSessionManager
         /// </summary>
         private void Zaiseki()
         {
-            if (!StayFlg)
+            if (!StayFlg && Properties.Settings.Default.AutoChangeZaiseki)
             {
                 GSessionCtrl.Ctrl.Zaiseki();
                 StayFlg = true;
@@ -187,7 +202,7 @@ namespace GSessionManager
         /// </summary>
         private void Huzai()
         {
-            if (StayFlg)
+            if (StayFlg && Properties.Settings.Default.AutoChangeZaiseki)
             {
                 GSessionCtrl.Ctrl.Huzai();
                 StayFlg = false;
@@ -199,26 +214,51 @@ namespace GSessionManager
         /// </summary>
         private void GetSchedule()
         {
-            lock (LockGettingSchedule)
+            Monitor.Enter(LockGettingSchedule);
+            try
             {
                 List<GSessionCtrl.Ctrl.ScheduleNode> schlist = GSessionCtrl.Ctrl.Schedule();
 
                 if (schlist == null)
                 {
+                    Monitor.Exit(LockGettingSchedule);
                     return;
                 }
 
-                SchList.Clear();
-
                 TimeSpan ts;
+                List<ulong> idlist = new List<ulong>();
+                int idx;
                 foreach (GSessionCtrl.Ctrl.ScheduleNode sch in schlist)
                 {
                     ts = sch.Begin - DateTime.Now;
                     if (0 < ts.Milliseconds)
                     {
-                        SchList.Add(new ScheduleNode(sch));
+                        // スケジュールIDのリスト
+                        idlist.Add(sch.Id);
+
+                        idx = SchList.FindIndex(node => node.Id == sch.Id);
+                        if (idx < 0)
+                        {
+                            // 新規追加・更新でIDに変更があれば追加する
+                            SchList.Add(new ScheduleNode(sch));
+                        }
+
                     }
                 }
+
+                // 存在しないスケジュールは既に見たことにする。
+                for (int i = 0; i < SchList.Count(); i++)
+			    {
+                    idx = idlist.FindIndex(node => node == SchList[i].Id);
+                    if (idx < 0)
+                    {
+                        SchList[i].Viewed = true;
+                    }
+			    }
+            }
+            finally
+            {
+                Monitor.Exit(LockGettingSchedule);
             }
         }
 
@@ -232,7 +272,7 @@ namespace GSessionManager
             {
                 case WM_QUERYENDSESSION:
                 case WM_ENDSESSION:
-                    if (StayFlg)
+                    if (StayFlg && Properties.Settings.Default.AutoChangeZaiseki)
                     {
                         try
                         {
@@ -366,7 +406,7 @@ namespace GSessionManager
                         }
 
                         // バルーンで通知（ScheduleNotfyTimeミリ秒前）
-                        if (ScheduleNotfyTime <= ts.TotalMilliseconds && ts.TotalMilliseconds < (ScheduleNotfyTime + this.ScheduleCheckTimer.Interval))
+                        if (ScheduleNotfyTime <= ts.TotalMilliseconds && ts.TotalMilliseconds < (ScheduleNotfyTime + this.ScheduleCheckTimer.Interval) && !sch.Viewed)
                         {
                             string title = sch.Title;
                             string text = sch.Text;

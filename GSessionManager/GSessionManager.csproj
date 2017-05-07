@@ -54,6 +54,9 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GSessionCtrl">
+      <HintPath>.\GSessionCtrl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -112,12 +115,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\GSessionCtrl\GSessionCtrl\GSessionCtrl.csproj">
-      <Project>{2E101F92-8A9D-4B95-B17E-0D3991CD0C24}</Project>
-      <Name>GSessionCtrl</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="GSessionManager.ico" />
